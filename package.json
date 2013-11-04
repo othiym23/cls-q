@@ -1,6 +1,6 @@
 {
   "name": "cls-q",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Make your promises play nice with the continuation-local-storage module.",
   "main": "shim.js",
   "scripts": {
