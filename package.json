@@ -1,0 +1,37 @@
+{
+  "name": "cls-q",
+  "version": "0.0.0",
+  "description": "Make your promises play nice with the continuation-local-storage module.",
+  "main": "shim.js",
+  "scripts": {
+    "test": "tap test/*.tap.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/othiym23/cls-q.git"
+  },
+  "keywords": [
+    "continuation-local-storage",
+    "q",
+    "promises",
+    "async",
+    "glue",
+    "baling-wire"
+  ],
+  "author": "Forrest L Norvell <ogd@aoaioxxysz.net>",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/othiym23/cls-q/issues"
+  },
+  "dependencies": {
+    "shimmer": "~0.9.2"
+  },
+  "devDependencies": {
+    "tap": "~0.4.4",
+    "redis": "~0.9.0"
+  },
+  "peerDependencies": {
+    "continuation-local-storage": "~2.5",
+    "q": ">=0.9.7"
+  }
+}
