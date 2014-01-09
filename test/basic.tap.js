@@ -20,7 +20,7 @@ test("promises + CLS without shim = failure", function (t) {
       function (data) {
         var parsed = JSON.parse(data);
         t.equal(parsed.id, key, "retrieved correct value");
-        t.equal(ns.get('id'), -1, "inner context value isn't available");
+        t.notOk(ns.get('id'), "inner context value isn't available");
 
         if (parsed) {
           return Q.resolve(parsed);
@@ -38,23 +38,22 @@ test("promises + CLS without shim = failure", function (t) {
     ns.run(function () {
       ns.set('id', 1);
       fetch(ns.get('id')).then(function () {
-        t.equal(ns.get('id'), -1, "inner context value is lost in resolved");
+        t.notOk(ns.get('id'), "inner context value is lost in resolved");
         client.end();
       }).fail(function (error) {
-        t.equal(ns.get('id'), -1, "inner context value is lost in failed");
+        t.notOk(ns.get('id'), "inner context value is lost in failed");
         t.fail(error);
       });
     });
   }
 
-  // set a sentinel value
-  ns.set('id', -1);
+  ns.run(function () {
+    var saved = Q.defer();
+    var data = JSON.stringify({id : 1});
+    client.set(1, data, saved.resolve.bind(saved));
 
-  var saved = Q.defer();
-  var data = JSON.stringify({id : 1});
-  client.set(1, data, saved.resolve.bind(saved));
-
-  Q.when(saved).then(test);
+    Q.when(saved).then(test);
+  });
 });
 
 test("promises + CLS with shim = success", function (t) {
@@ -106,12 +105,11 @@ test("promises + CLS with shim = success", function (t) {
     });
   }
 
-  // set a sentinel value
-  ns.set('id', -1);
+  ns.run(function () {
+    var saved = Q.defer();
+    var data = JSON.stringify({id : 1});
+    client.set(1, data, saved.resolve.bind(saved));
 
-  var saved = Q.defer();
-  var data = JSON.stringify({id : 1});
-  client.set(1, data, saved.resolve.bind(saved));
-
-  Q.when(saved).then(test);
+    Q.when(saved).then(test);
+  });
 });
