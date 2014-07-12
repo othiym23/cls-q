@@ -2,12 +2,12 @@
 
 var shimmer = require('shimmer');
 
-module.exports = function patchQ(ns) {
+module.exports = function patchQ(ns, Q) {
   if (typeof ns.bind !== 'function') {
     throw new TypeError("must include namespace to patch Q against");
   }
 
-  var Q = require('q');
+  Q = Q || require('q');
   var proto = Q && Q.makePromise && Q.makePromise.prototype;
   shimmer.wrap(proto, 'then', function (then) {
     return function nsThen(fulfilled, rejected, progressed) {
