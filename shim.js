@@ -17,4 +17,22 @@ module.exports = function patchQ(ns) {
       return then.call(this, fulfilled, rejected, progressed);
     };
   });
+
+  shimmer.wrap(proto, 'fin', function (fin) {
+     return function nsFin(callback) {
+       if (typeof callback === 'function') {
+           callback = ns.bind(callback);
+       }
+       return fin.call(this, callback);
+     };
+  });
+
+  shimmer.wrap(proto, 'tap', function (tap) {
+    return function nsFin(callback) {
+        if (typeof callback === 'function') {
+            callback = ns.bind(callback);
+        }
+        return tap.call(this, callback);
+    };
+  });
 };
